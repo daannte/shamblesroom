@@ -54,7 +54,6 @@
               - title: Nginx Proxy Manager
                 url: ${NPM_URL}
                 icon: di:nginx-proxy-manager
-              - title: Notes
-                url: ${NOTES_URL}
-                icon: di:silverbullet
-
+              - title: Books
+                url: ${BOOKS_URL}
+                icon: di:book-lore
