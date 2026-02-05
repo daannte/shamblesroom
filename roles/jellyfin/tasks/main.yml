@@ -45,8 +45,5 @@
       - "{{ jellyfin_config_path }}:/config"
       - "{{ jellyfin_cache_path }}:/cache"
       - "{{ jellyfin_media_path }}:/media"
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: "traefik"
-      traefik.http.routers.jellyfin.rule: "{{ 'Host(`' + JELLYFIN_URL + '`)' }}"
+    labels: "{{ jellyfin_labels }}"
 
