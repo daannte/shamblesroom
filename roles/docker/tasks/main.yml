@@ -1,0 +1,22 @@
+- name: Ensure Docker is installed
+  become: true
+  pacman:
+    name: "{{ docker_package }}"
+    state: present
+    update_cache: yes
+
+- name: Enable and start Docker service
+  become: true
+  systemd:
+    name: "{{ docker_service }}"
+    enabled: yes
+    state: started
+
+
+- name: Ensure current user is in docker group
+  become: true
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+

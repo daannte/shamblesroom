@@ -1,0 +1,16 @@
+jellyfin_version: "latest"
+jellyfin_container_name: "jellyfin"
+jellyfin_port: 8096
+jellyfin_user: "1000:1000"
+jellyfin_data_path: "/srv/docker/jellyfin"
+jellyfin_config_path: "{{ jellyfin_data_path }}/config"
+jellyfin_cache_path: "{{ jellyfin_data_path }}/cache"
+jellyfin_media_path: "/data/media"
+jellyfin_env_file: "{{ jellyfin_data_path }}/.env"
+jellyfin_networks:
+  - name: traefik
+jellyfin_labels:
+  traefik.enable: "true"
+  traefik.docker.network: "traefik"
+  traefik.http.routers.jellyfin.rule: "{{ 'Host(`' + JELLYFIN_URL + '`)' }}"
+

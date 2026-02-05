@@ -1,1 +1,4 @@
 .env
+.venv
+pass
+vault_pass
