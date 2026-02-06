@@ -1,0 +1,20 @@
+- name: Load vaulted secrets
+  include_vars: ../vars/secrets.yml
+
+- name: Pull Tailscale Docker image
+  community.docker.docker_image:
+    name: "{{ tailscale_image }}" 
+    tag: "{{ tailscale_version }}"
+    source: pull
+
+- name: Run Tailscale container
+  community.docker.docker_container:
+    name: "{{ tailscale_container_name }}"
+    image: "{{ tailscale_image }}:{{ tailscale_version }}"
+    network_mode: "{{ tailscale_network_mode }}"
+    restart_policy: "{{ tailscale_restart_policy }}"
+    env: "{{ tailscale_env }}"
+    volumes: "{{ tailscale_volumes }}"
+    capabilities: "{{ tailscale_capabilities }}"
+    state: started
+

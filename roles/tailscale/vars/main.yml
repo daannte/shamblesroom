@@ -1,0 +1,23 @@
+tailscale_image: "tailscale/tailscale"
+tailscale_version: "latest"
+tailscale_container_name: "tailscale"
+
+tailscale_network_mode: "host"
+tailscale_restart_policy: "unless-stopped"
+
+tailscale_env:
+  TS_HOSTNAME: "shamblesroom"
+  TS_AUTH_KEY: "{{ TS_AUTH_KEY }}"
+  TS_STATE_DIR: "/var/lib/tailscale"
+  TS_USERSPACE: "false"
+  TS_ACCEPT_DNS: "false"
+  TS_EXTRA_ARGS: "--accept-routes"
+  TS_ROUTES: "192.168.0.0/24"
+
+tailscale_volumes:
+  - "/dev/net/tun:/dev/net/tun"
+  - "/srv/docker/tailscale:/var/lib/tailscale"
+
+tailscale_capabilities:
+  - net_admin
+  - sys_module

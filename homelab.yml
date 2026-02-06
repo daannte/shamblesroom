@@ -1,6 +1,7 @@
 - hosts: servers
   roles:
     - docker
+    - tailscale
     - jellyfin
   
   

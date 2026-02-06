@@ -6,44 +6,30 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: 1000
-    group: 1000
+    owner: "{{ jellyfin_uid }}" 
+    group: "{{ jellyfin_gid }}" 
     mode: '0755'
   loop:
     - "{{ jellyfin_config_path }}"
     - "{{ jellyfin_cache_path }}"
 
-- name: Create jellyfin env file from template
-  template:
-    src: jellyfin.env.j2
-    dest: "{{ jellyfin_env_file }}"
-    mode: "0600"
-  vars:
-    TZ: "{{ timezone }}"
-    URL: "{{ JELLYFIN_URL }}"
-
 - name: Pull Jellyfin Docker image
   community.docker.docker_image:
-    name: jellyfin/jellyfin
+    name: "{{ jellyfin_image }}" 
     tag: "{{ jellyfin_version }}"
     source: pull
 
 - name: Run Jellyfin container
   community.docker.docker_container:
     name: "{{ jellyfin_container_name }}"
-    image: "jellyfin/jellyfin:{{ jellyfin_version }}"
-    state: started
-    restart_policy: unless-stopped
+    image: "{{ jellyfin_image }}:{{ jellyfin_version }}"
+    restart_policy: "{{ jellyfin_restart_policy }}"
     user: "{{ jellyfin_user }}"
-    env_file: "{{ jellyfin_env_file }}"
-    devices:
-      - "/dev/dri:/dev/dri"
+    env: "{{ jellyfin_env }}"
+    devices: "{{ jellyfin_devices }}"
     networks: "{{ jellyfin_networks }}"
-    ports:
-      - "{{ jellyfin_port }}:8096"
-    volumes:
-      - "{{ jellyfin_config_path }}:/config"
-      - "{{ jellyfin_cache_path }}:/cache"
-      - "{{ jellyfin_media_path }}:/media"
+    ports: "{{ jellyfin_ports }}"
+    volumes: "{{ jellyfin_volumes }}"
     labels: "{{ jellyfin_labels }}"
+    state: started
 
